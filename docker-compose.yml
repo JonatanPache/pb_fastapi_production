@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
+      - ./scripts:/docker-entrypoint-initdb.d:z
     networks:
       - dev-network
 
