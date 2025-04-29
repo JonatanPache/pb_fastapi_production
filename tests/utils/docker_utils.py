@@ -7,7 +7,7 @@ def is_container_ready(container):
     container.reload()
     return container.status == "running"
 
-def wait_for_stable_status(container, stable_duration=3, interval=1):
+def wait_for_stable_status(container, stable_duration=5, interval=1):
     start_time = time.time()
     stable_count = 0
     while time.time() - start_time < stable_duration:
@@ -43,12 +43,12 @@ def start_database_container():
             "POSTGRES_PASSWORD": "postgres"
         },
         "volumes": [f"{scripts_dir}:/docker-entrypoint-initdb.d"],
-        "network_mode": "fastapi-development_dev-network"
+        "network_mode": "fastapi-development_dev_network"
     }
 
     container = client.containers.run(**container_config)
     while not is_container_ready(container):
-        time.sleep(1)
+        time.sleep(2)
     if not wait_for_stable_status(container):
         raise RuntimeError("Container did not stabilize within the specified time")
     return container

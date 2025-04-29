@@ -1,2 +1,2 @@
-def test_condition_is_true():
+def test_true():
     assert True

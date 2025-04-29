@@ -1,5 +1,5 @@
 networks:
-  dev-network:
+  dev_network:
     driver: bridge
 
 services:
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d:z
     networks:
-      - dev-network
+      - dev_network
 
   adminer:
     image: adminer
@@ -21,6 +21,6 @@ services:
     ports:
       - 8080:8080
     networks:
-      - dev-network
+      - dev_network
 
 name: fastapi-development

@@ -10,15 +10,16 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-#
-url_devdb = os.environ.get("DEV_DATABASE_URL")
-config.set_section_option("devdb", "sqlalchemy.url", url_devdb)
-target_metadata = models.Base.metadata
-
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+
+config.set_section_option("devdb", "sqlalchemy.url", os.environ.get("DEV_DATABASE_URL"))
+config.set_section_option("testdb", "sqlalchemy.url", os.environ.get("TEST_DATABASE_URL"))
+
+target_metadata = models.Base.metadata
 
 # add your model's MetaData object here
 # for 'autogenerate' support
