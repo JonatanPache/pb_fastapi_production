@@ -48,7 +48,7 @@ def start_database_container():
 
     container = client.containers.run(**container_config)
     while not is_container_ready(container):
-        time.sleep(2)
+        time.sleep(3)
     if not wait_for_stable_status(container):
         raise RuntimeError("Container did not stabilize within the specified time")
     return container

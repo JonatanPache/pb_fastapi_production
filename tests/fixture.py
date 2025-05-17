@@ -1,11 +1,15 @@
-from dotenv import load_dotenv
-load_dotenv()
+# Import necessary libraries
 import pytest
 import os
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
 
+# Import utility functions for database migration
 from tests.utils.database_utils import migrate_to_db
 from tests.utils.docker_utils import  start_database_container
+from sqlalchemy.orm import sessionmaker
+
+load_dotenv()
 
 @pytest.fixture(scope="session", autouse=True)
 def db_session():
@@ -16,5 +20,10 @@ def db_session():
     with engine.begin() as connection:
         migrate_to_db("migrations", "alembic.ini", connection)
     
-    # container.stop()
-    # container.remove()
+    Sessionlocal = sessionmaker(autocommit=False, autoflush=True, bind=engine)
+
+    yield Sessionlocal
+
+    container.stop()
+    container.remove()
+    engine.dispose()
